@@ -10,11 +10,9 @@ const logger = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const cors = require('cors');
 const routes = require('./routes/index');
 const activityRouter = require('./routes/activity');
 
-console.log('JWT-->',process.env.JWT);
 const app = express();
 const STACK = process.env.STACK || 's11';
 
@@ -23,30 +21,12 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        'default-src': ["'self'"],
-        'frame-ancestors': ["'self'", `https://mc.${STACK}.exacttarget.com`, `https://jbinteractions.${STACK}.marketingcloudapps.com`],
+        'default-src': ["'self'", '*'], // Allow all sources for default content
+        'frame-ancestors': ["'self'", `https://mc.${STACK}.exacttarget.com`, `https://jbinteractions.${STACK}.marketingcloudapps.com`, '*'], // Allow all sources for frame ancestors
       },
     },
   }),
 );
-// app.use(cors());
-// app.use((req, res, next) => {
-//   // Website you wish to allow to connect
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-
-//   // Request methods you wish to allow
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-//   // Request headers you wish to allow
-//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-//   // Set to true if you need the website to include cookies in the requests sent
-//   // to the API (e.g. in case you use sessions)
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-
-//   // Pass to next layer of middleware
-//   next();
-// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
